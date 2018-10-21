@@ -58,7 +58,6 @@ btnX.addEventListener("click", function(){
     localStorage.removeItem("people");
 
     updateUser();
-
 });
 
 let btnV = document.getElementById("btn_heart");
@@ -88,6 +87,7 @@ document.getElementById("showLikes").addEventListener('click', function(){
           let change2 = document.querySelectorAll('.change');
           for(p=0;p<change2.length;p++){
               change2[p].addEventListener('click', function(){
+                  //The splice() method adds/removes items to/from an array, and returns the removed item(s).
                   crosses.splice(p, 1);
                   localStorage.setItem("crosses", JSON.stringify(crosses));
                   hearts = JSON.parse(localStorage.getItem("hearts"));
@@ -106,33 +106,36 @@ document.getElementById("showLikes").addEventListener('click', function(){
   }
 })
 
-//use geolocation
-//me
-
+//GEOLOCATION
+function getLocations(){
 if(navigator.geolocation){
-    let posMe = navigator.geolocation.getCurrentPosition(function(position){
-    console.log(posMe)
+    //use geolocation
+    //me
+    let posMe = navigator.geolocation.getCurrentPosition(getPositionMe);
+    for(i=0; i<10; i++)
+    {
+        let x = data.results[i];
+        let posTinder = x.navigator.geolocation.getCurrentPosition(getPositionTinder);
+    {
+        getPos(position.coords.latitude, position.coords.longitude);
+        console.log(posMe);
+    })
 
-    let map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    });
-}
-else{
-    console.log("Geolocation is not supported");
-    }
+    //function getPositionMe
+    //function getPositionTinder
 
-//use geolocation 
-//tinder person
-
-for(i=0; i<10; i++){
-    let x = data.results[i];
+    //use geolocation 
+    //tinder person
    
-    let posTinder = x.navigator.geolocation.getCurrentPosition(function(position){
-        console.log(posTinder)
-    }
-};
-        
+            getPos(position.coords.latitude, position.coords.longitude);
+            console.log(posTinder);
+        })
+    };  
+    //show location on map    
+    let map;
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-//distance in km between you and the person
+    //distance in km between you and the person
 function distanceMe (){
     let meLat = posMe.coords.latitude;
     let meLong = posMe.coords.longitude;
@@ -180,5 +183,17 @@ properties: {
       }
   
 });
+}
 
+else
+{
+    console.log("Geolocation is not supported");
+}
+};
+
+    
+
+
+
+window.onload = getLocations();
 window.onload = updateUser();
